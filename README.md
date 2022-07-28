@@ -5,9 +5,6 @@
 
 ## Installation
 
-fntcommand-restclient is distributed on [PyPI](https://pypi.org) as a universal
-wheel on Linux, macOS and Windows and supports Python 3.6+.
-
 ```bash
 pip install fntcommand-restclient
 ```
