@@ -1,6 +1,6 @@
 from array import array
 import click
-from fnt import RESTClient
+from fnt import Client
 import os
 from pathlib import Path
 from rich.console import Console
@@ -20,7 +20,7 @@ def main(ctx, connection):
     return 0
 
 
-def make_restclient(connection):
+def make_client(connection):
     config_home = Path(os.getenv('XDG_CONFIG_HOME', None))
     if not config_home:
         config_home = Path(os.getenv('HOME'), None) / '.config'
@@ -29,7 +29,7 @@ def make_restclient(connection):
         conf = tomli.load(f)
         if not connection:
             connection = conf['default_connection']
-        return RESTClient(**conf['connection'][connection])
+        return Client(**conf['connection'][connection])
 
 
 @main.command()
@@ -38,7 +38,7 @@ def id(ctx):
     """Print business gateway ID."""
     try:
         connection = ctx.obj['connection']
-        fnt = make_restclient(connection)
+        fnt = make_client(connection)
         click.echo(fnt.id())
         return 0
     except Exception:
@@ -52,7 +52,7 @@ def systems(ctx):
     """Print business gateway systems."""
     try:
         connection = ctx.obj['connection']
-        fnt = make_restclient(connection)
+        fnt = make_client(connection)
         systems = fnt.systems()
 
         table = Table()

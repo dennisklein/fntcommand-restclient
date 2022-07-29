@@ -16,7 +16,7 @@ class UnsuccessfulStatusResponse(Exception):
         return f'{self.message} ({self.error_code}, {self.sub_error_code})'
 
 
-class RESTClient:
+class Client:
     def __init__(self, **kwargs):
         self.config = kwargs
         self.base_url = self.config['server']
