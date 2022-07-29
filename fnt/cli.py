@@ -13,16 +13,16 @@ import tomli
               default=None,
               help='Connection name from config.toml.')
 @click.pass_context
-def main(ctx, connection):
+def main(ctx, connection) -> int:
     ctx.ensure_object(dict)
     ctx.obj['connection'] = connection
     return 0
 
 
-def make_client(connection):
-    config_home = Path(os.getenv('XDG_CONFIG_HOME', None))
+def make_client(connection: str) -> Client:
+    config_home = Path(str(os.getenv('XDG_CONFIG_HOME')))
     if not config_home:
-        config_home = Path(os.getenv('HOME'), None) / '.config'
+        config_home = Path(str(os.getenv('HOME'))) / '.config'
 
     with open(config_home / 'fnt/config.toml', 'rb') as f:
         conf = tomli.load(f)
@@ -32,11 +32,11 @@ def make_client(connection):
 
 
 @main.command()
-@click.pass_context
-def id(ctx):
+@click.pass_obj
+def gateway_id(obj: dict) -> int:
     """Print business gateway ID."""
     try:
-        connection = ctx.obj['connection']
+        connection = obj['connection']
         fnt = make_client(connection)
         click.echo(fnt.id())
         return 0
@@ -46,11 +46,11 @@ def id(ctx):
 
 
 @main.command()
-@click.pass_context
-def systems(ctx):
+@click.pass_obj
+def systems(obj: dict) -> int:
     """Print business gateway systems."""
     try:
-        connection = ctx.obj['connection']
+        connection = obj['connection']
         fnt = make_client(connection)
         systems = fnt.systems()
 
