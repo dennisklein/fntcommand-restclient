@@ -1,4 +1,3 @@
-from array import array
 import click
 from fnt import Client
 import os
