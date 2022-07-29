@@ -11,6 +11,7 @@ class UnsuccessfulStatusResponse(Exception):
     """json response body contains status.success == False"""
 
     def __init__(self, status):
+        super().__init__()
         self.message = status['message']
         self.error_code = status['errorCode']
         self.sub_error_code = status['subErrorCode']
