@@ -1,4 +1,6 @@
-"""REST client for FNT Command (https://www.fntsoftware.com/en/products/fnt-command)"""
+"""REST client for FNT Command
+(https://www.fntsoftware.com/en/products/fnt-command)
+"""
 
 import requests
 
@@ -7,6 +9,7 @@ VERSION = '0.0.2'
 
 class UnsuccessfulStatusResponse(Exception):
     """json response body contains status.success == False"""
+
     def __init__(self, status):
         self.message = status['message']
         self.error_code = status['errorCode']
@@ -17,6 +20,7 @@ class UnsuccessfulStatusResponse(Exception):
 
 
 class Client:
+
     def __init__(self, **kwargs):
         self.config = kwargs
         self.base_url = self.config['server']
