@@ -22,22 +22,19 @@ class RESTClient:
         self.base_url = self.config['server']
         self.base_path = '/axis/api/rest'
 
-    def id(self):
-        """Query business gateway ID"""
-        path = f'{self.base_path}/businessGateway/Id'
-        req = requests.get(f'{self.base_url}{path}')
+    def _get(self, path, response_key):
+        """REST GET"""
+        req = requests.get(f'{self.base_url}{self.base_path}{path}')
         req.raise_for_status()
         res = req.json()
         if not res['status']['success']:
             raise UnsuccessfulStatusResponse(res['status'])
-        return res['identifier']
+        return res[response_key]
+
+    def id(self):
+        """Query business gateway ID"""
+        return self._get('/businessGateway/Id', 'identifier')
 
     def systems(self):
         """Query business gateway systems"""
-        path = f'{self.base_path}/businessGateway/Systems'
-        req = requests.get(f'{self.base_url}{path}')
-        req.raise_for_status()
-        res = req.json()
-        if not res['status']['success']:
-            raise UnsuccessfulStatusResponse(res['status'])
-        return res['systems']
+        return self._get('/businessGateway/Systems', 'systems')
